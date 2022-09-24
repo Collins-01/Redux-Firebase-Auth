@@ -1,0 +1,9 @@
+.homePage__container{
+    padding: 30px;
+    background-color: whitesmoke;
+    width: fit-content;
+    height: fit-content;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 100px;
+}

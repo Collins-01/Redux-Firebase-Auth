@@ -1,0 +1,12 @@
+.appButton > button {
+
+    background-color: blue;
+    margin-top: 20px;
+    padding: 13px 40px;
+    cursor: pointer;
+    border: none;
+    border-radius: 1px;
+    color: white;
+    font-size: 15px;
+    font-weight: 600;
+}
