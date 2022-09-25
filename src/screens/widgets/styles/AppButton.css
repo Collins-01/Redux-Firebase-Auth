@@ -10,3 +10,8 @@
     font-size: 15px;
     font-weight: 600;
 }
+.appButton__loader{
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 10px;
+}

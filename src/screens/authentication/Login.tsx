@@ -3,32 +3,42 @@ import AuthService from '../../services/auth_service';
 import AppButton from '../widgets/AppButton';
 import AuthInputField from '../widgets/AuthInputField';
 import './styles/Login.css';
+import {useNavigate} from 'react-router-dom';
+import { useAppDispatch, useAppSelector } from '../../app/hooks';
+import authSlice, { AuthState, selectAuth, update } from '../../features/auth/authSlice';
+import UserModel from '../../models/user_model';
 function Login() {
+  const count = useAppSelector(selectAuth);
+  const dispatch = useAppDispatch();
   const [email, setEmail] = useState<string>('');
   const [emailError, setEmailError] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [passwordError, setPasswordError] = useState<string>('');
   const [loading, setLoading]=useState<boolean>(false);
+  const navigate = useNavigate();
   const handleSubmit = async ()=>{
-     if(!email.includes('@')){
-        setEmailError('Please provide a valid email.')
-     }
-     if(password.length<6){
-      setPasswordError('Password must be 6+ chars')
-     }
-     if(email.includes('@') && password.length>=6){
-      try {
-        var response = await AuthService.login(email,password);
-        if(response.user.uid){
-          // TODO : Dispatch Update user
-          // navigate
-        }else{
-          //* Handle Error
-        }
-      } catch (error) {
-        alert(error);
+    
+    try {
+      setLoading(true);
+      var response = await AuthService.login(email,password);
+      setLoading(false);
+      if(response.user.uid){
+        console.log(`LOGGEDIN User Name:::::::: ${response.user.displayName}`)
+        console.log(`LOGGEDIN User Email:::::::: ${response.user.email}`)
+        console.log(`LOGGEDIN User ID:::::::: ${response.user.uid}`)
+        const newUser: UserModel = {email: response.user.email, name: response.user.displayName};
+        const authSate : AuthState = {user: newUser}
+        dispatch(update(authSate));
+        // navigate
+        navigate('/home')
+      }else{
+        console.log(`Login Error, user was null`);
+        //* Handle Error
       }
-     }
+    } catch (error) {
+      setLoading(false);
+      alert(error);
+    }
   }
   return (
     <div className='login'>

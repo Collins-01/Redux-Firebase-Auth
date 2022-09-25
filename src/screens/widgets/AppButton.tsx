@@ -1,6 +1,6 @@
 import React, { MouseEventHandler } from 'react'
 import'./styles/AppButton.css';
-// import CircularProgress from '@mui/material/CircularProgress';
+import CircularProgress from '@mui/material/CircularProgress';
 
 
  interface AuthButtonProps { 
@@ -12,8 +12,11 @@ import'./styles/AppButton.css';
 function AppButton(props: AuthButtonProps) {
   return (
     <div className='appButton'>
-        <button onClick={props.onClick} color={(props.isDisabled) ? ('blue'): ('lightBlue')}  aria-busy >{props.title}</button>
-        {/* <CircularProgress /> */}
+      {
+     (props.isLoading)?   (<div className="appButton__loader"><CircularProgress /></div>) : (<button onClick={props.onClick} color={(props.isDisabled) ? ('blue'): ('lightBlue')}  aria-busy >{props.title}</button>)
+      }
+        
+        
     </div>
   )
 }
